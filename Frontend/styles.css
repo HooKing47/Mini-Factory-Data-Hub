@@ -1,0 +1,246 @@
+/* Light Theme */
+:root {
+    --bg-main: #f1f5f9;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --primary: #3b82f6;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #10b981;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --input-bg: rgba(0, 0, 0, 0.05);
+    --ticket-bg: rgba(0, 0, 0, 0.03);
+    --modal-bg: #ffffff;
+    --header-bg: rgba(255, 255, 255, 0.8);
+    --gradient-bg: radial-gradient(circle at top left, #e2e8f0, var(--bg-main));
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-main: #0f172a;
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --ticket-bg: rgba(255, 255, 255, 0.03);
+    --modal-bg: #0f172a;
+    --header-bg: rgba(15, 23, 42, 0.8);
+    --gradient-bg: radial-gradient(circle at top left, #1e1b4b, var(--bg-main));
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+    background: var(--gradient-bg);
+    color: var(--text-main);
+    min-height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Glassmorphism Container */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+[data-theme="dark"] .glass-panel {
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .glass-panel:hover {
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+}
+
+header {
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--glass-border);
+    background: var(--header-bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    transition: background 0.3s ease;
+}
+
+h1 {
+    margin: 0;
+    font-weight: 800;
+    background: linear-gradient(135deg, #3b82f6, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+}
+
+.container {
+    padding: 2rem 5%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+/* Status Colors */
+.status-Normal { color: var(--success); }
+.status-Warning { color: var(--warning); }
+.status-Error { 
+    color: var(--danger); 
+    animation: pulse-danger 1.5s infinite;
+}
+
+@keyframes pulse-danger {
+    0% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+    50% { text-shadow: 0 0 15px rgba(239, 68, 68, 1); }
+    100% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+}
+
+/* Priority Badges */
+.badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.badge-Urgent { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+.badge-High { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+.badge-Normal { background: rgba(59, 130, 246, 0.2); color: var(--primary); }
+.badge-Low { background: rgba(148, 163, 184, 0.2); color: var(--text-muted); }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+th {
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+/* Buttons */
+.btn {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+    transform: scale(1.05);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+.btn-primary:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+}
+
+.btn-icon {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    display: flex; justify-content: center; align-items: center;
+}
+.btn-icon:hover {
+    background: var(--input-bg);
+    transform: scale(1.1);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--modal-bg);
+    width: 400px;
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--text-main);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: none;
+}
+
+/* Tickets List */
+.ticket {
+    background: var(--ticket-bg);
+    border-left: 4px solid var(--warning);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 0 8px 8px 0;
+}
+.ticket.resolved {
+    border-left-color: var(--success);
+    opacity: 0.6;
+}

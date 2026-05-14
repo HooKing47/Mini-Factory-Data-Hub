@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,228 +9,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --bg-dark: #0f172a;
-            --glass-bg: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --primary: #3b82f6;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Outfit', sans-serif;
-            background: radial-gradient(circle at top left, #1e1b4b, var(--bg-dark));
-            color: var(--text-main);
-            min-height: 100vh;
-        }
-
-        /* Glassmorphism Container */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .glass-panel:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
-        }
-
-        header {
-            padding: 2rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-            background: rgba(15, 23, 42, 0.8);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        h1 {
-            margin: 0;
-            font-weight: 800;
-            background: linear-gradient(135deg, #60a5fa, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2rem;
-        }
-
-        .container {
-            padding: 2rem 5%;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-        }
-
-        /* Status Colors */
-        .status-Normal { color: var(--success); }
-        .status-Warning { color: var(--warning); }
-        .status-Error { 
-            color: var(--danger); 
-            animation: pulse-danger 1.5s infinite;
-        }
-
-        @keyframes pulse-danger {
-            0% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
-            50% { text-shadow: 0 0 20px rgba(239, 68, 68, 1); }
-            100% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        th {
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-        }
-
-        /* Buttons */
-        .btn {
-            background: linear-gradient(135deg, #ef4444, #b91c1c);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
-            transform: scale(1.05);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--bg-dark);
-            width: 400px;
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            color: white;
-            border-radius: 8px;
-            font-family: 'Outfit', sans-serif;
-            box-sizing: border-box;
-        }
-
-        /* Tickets List */
-        .ticket {
-            background: rgba(255,255,255,0.03);
-            border-left: 4px solid var(--warning);
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 0 8px 8px 0;
-        }
-        .ticket.resolved {
-            border-left-color: var(--success);
-            opacity: 0.6;
-        }
-    </style>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
     <header>
-        <h1><i class="fa-solid fa-industry"></i> Factory Control Center</h1>
-        <div style="color: var(--text-muted);">Live Status: <span style="color: var(--success);"><i class="fa-solid fa-circle-dot fa-fade"></i> Connected</span></div>
+        <h1><i class="fa-solid fa-industry"></i> <span data-i18n="title">Factory Control Center</span></h1>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="color: var(--text-muted);">
+                <span data-i18n="liveStatus">Live Status:</span> 
+                <span id="connectionStatus" style="color: var(--success);">
+                    <i class="fa-solid fa-circle-dot fa-fade"></i> <span data-i18n="connected">Connected</span>
+                </span>
+            </div>
+            <button class="btn btn-icon" onclick="toggleLanguage()" id="langToggleBtn" title="Toggle TH/EN" style="font-weight: bold; font-size: 0.9rem;">
+                TH
+            </button>
+            <button class="btn btn-icon" onclick="toggleTheme()" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+                <i class="fa-solid fa-sun"></i>
+            </button>
+        </div>
     </header>
 
     <div class="container">
         <!-- Left Column: Live Data -->
         <div class="glass-panel">
-            <h2><i class="fa-solid fa-server"></i> Live Machine Data</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time feed from 20 factory machines</p>
+            <h2><i class="fa-solid fa-server"></i> <span data-i18n="liveData">Live Machine Data</span></h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="feedDesc">Real-time feed from 20 factory machines</p>
             <table>
                 <thead>
                     <tr>
-                        <th>Machine ID</th>
-                        <th>Temperature (°C)</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th data-i18n="colMachine">Machine ID</th>
+                        <th data-i18n="colTemp">Temperature (°C)</th>
+                        <th data-i18n="colStatus">Status</th>
+                        <th data-i18n="colAction">Action</th>
                     </tr>
                 </thead>
                 <tbody id="machineTableBody">
-                    <tr><td colspan="4" style="text-align:center;">Loading data...</td></tr>
+                    <tr>
+                        <td colspan="4" style="text-align:center;" data-i18n="loading">Loading data...</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
         <!-- Right Column: Tickets -->
         <div class="glass-panel">
-            <h2><i class="fa-solid fa-screwdriver-wrench"></i> Active Repair Tickets</h2>
+            <h2><i class="fa-solid fa-screwdriver-wrench"></i> <span data-i18n="activeTickets">Active Repair Tickets</span></h2>
             <button class="btn btn-primary" onclick="openModal('')" style="width: 100%; margin-bottom: 1rem;">
-                <i class="fa-solid fa-plus"></i> Create Manual Ticket
+                <i class="fa-solid fa-plus"></i> <span data-i18n="createTicket">Create Manual Ticket</span>
             </button>
             <div id="ticketsContainer">
-                <p style="text-align:center; color: var(--text-muted);">Loading tickets...</p>
+                <p style="text-align:center; color: var(--text-muted);" data-i18n="loading">Loading tickets...</p>
             </div>
         </div>
     </div>
@@ -237,22 +70,33 @@
     <!-- Repair Request Modal -->
     <div id="repairModal" class="modal">
         <div class="modal-content">
-            <h2 style="margin-top: 0; color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> Report Issue</h2>
+            <h2 style="margin-top: 0; color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="reportIssue">Report Issue</span></h2>
             <div class="form-group">
-                <label>Machine ID</label>
+                <label data-i18n="lblMachine">Machine ID</label>
                 <input type="text" id="reqMachineId" placeholder="e.g. M-05">
             </div>
             <div class="form-group">
-                <label>Operator Name</label>
+                <label data-i18n="lblOperator">Operator Name</label>
                 <input type="text" id="reqOperator" placeholder="Your Name">
             </div>
             <div class="form-group">
-                <label>Issue Description</label>
-                <textarea id="reqDescription" rows="3" placeholder="Describe the problem..."></textarea>
+                <label data-i18n="lblPriority">Priority</label>
+                <select id="reqPriority">
+                    <option value="Low" data-i18n="prioLow">Low (No rush)</option>
+                    <option value="Normal" selected data-i18n="prioNormal">Normal (Standard check)</option>
+                    <option value="High" data-i18n="prioHigh">High (Needs attention soon)</option>
+                    <option value="Urgent" data-i18n="prioUrgent">Urgent (Machine stopped!)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label data-i18n="lblDesc">Issue Description</label>
+                <textarea id="reqDescription" rows="3" placeholder="..."></textarea>
             </div>
             <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                <button class="btn" style="background: transparent; border: 1px solid var(--text-muted);" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="submitTicket()">Submit Ticket</button>
+                <button class="btn"
+                    style="background: transparent; color: var(--text-main); border: 1px solid var(--text-muted);"
+                    onclick="closeModal()" data-i18n="btnCancel">Cancel</button>
+                <button class="btn btn-primary" onclick="submitTicket()" data-i18n="btnSubmit">Submit Ticket</button>
             </div>
         </div>
     </div>
@@ -260,29 +104,148 @@
     <script>
         const API_BASE = 'http://localhost:5209/api';
 
-        // Fetch Live Machine Data
+        // --- Translation Dictionary ---
+        const i18n = {
+            en: {
+                title: "Factory Control Center",
+                liveStatus: "Live Status:",
+                connected: "Connected",
+                disconnected: "Disconnected",
+                liveData: "Live Machine Data",
+                feedDesc: "Real-time feed from 20 factory machines",
+                colMachine: "Machine ID",
+                colTemp: "Temperature (°C)",
+                colStatus: "Status",
+                colAction: "Action",
+                loading: "Loading data...",
+                activeTickets: "Active Repair Tickets",
+                createTicket: "Create Manual Ticket",
+                noTickets: "No active tickets. All good!",
+                reportIssue: "Report Issue",
+                lblMachine: "Machine ID",
+                lblOperator: "Operator Name",
+                lblPriority: "Priority",
+                lblDesc: "Issue Description",
+                btnCancel: "Cancel",
+                btnSubmit: "Submit Ticket",
+                prioLow: "Low (No rush)",
+                prioNormal: "Normal (Standard check)",
+                prioHigh: "High (Needs attention soon)",
+                prioUrgent: "Urgent (Machine stopped!)",
+                btnReport: "Report"
+            },
+            th: {
+                title: "ศูนย์ควบคุมโรงงาน",
+                liveStatus: "สถานะระบบ:",
+                connected: "เชื่อมต่อแล้ว",
+                disconnected: "ขาดการเชื่อมต่อ",
+                liveData: "ข้อมูลเครื่องจักรแบบเรียลไทม์",
+                feedDesc: "ข้อมูลส่งตรงจากเครื่องจักร 20 เครื่อง",
+                colMachine: "รหัสเครื่องจักร",
+                colTemp: "อุณหภูมิ (°C)",
+                colStatus: "สถานะ",
+                colAction: "จัดการ",
+                loading: "กำลังโหลดข้อมูล...",
+                activeTickets: "รายการแจ้งซ่อมที่กำลังดำเนินการ",
+                createTicket: "สร้างใบแจ้งซ่อม",
+                noTickets: "ไม่มีรายการแจ้งซ่อม ทุกอย่างปกติดี!",
+                reportIssue: "แจ้งปัญหา / แจ้งซ่อม",
+                lblMachine: "รหัสเครื่องจักร",
+                lblOperator: "ชื่อผู้แจ้ง",
+                lblPriority: "ระดับความด่วน",
+                lblDesc: "รายละเอียดปัญหา",
+                btnCancel: "ยกเลิก",
+                btnSubmit: "ส่งใบแจ้งซ่อม",
+                prioLow: "ต่ำ (ไม่รีบ)",
+                prioNormal: "ปานกลาง (ตรวจเช็คทั่วไป)",
+                prioHigh: "สูง (ต้องรีบแก้ไข)",
+                prioUrgent: "ด่วนมาก (เครื่องหยุดทำงาน!)",
+                btnReport: "แจ้งซ่อม"
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'en';
+
+        function applyLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) {
+                    el.innerText = i18n[currentLang][key];
+                }
+            });
+            document.getElementById('langToggleBtn').innerText = currentLang === 'en' ? 'TH' : 'EN';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            localStorage.setItem('lang', currentLang);
+            applyLanguage();
+            // Refresh tables to apply translations to dynamic buttons
+            fetchMachineData();
+            fetchTickets();
+        }
+
+        // --- Theme Toggle Logic ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggleBtn');
+            const isDark = html.getAttribute('data-theme') === 'dark';
+
+            if (isDark) {
+                html.removeAttribute('data-theme'); // Light mode
+                btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark'); // Dark mode
+                btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize Theme & Lang
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.removeAttribute('data-theme');
+            document.getElementById('themeToggleBtn').innerHTML = '<i class="fa-solid fa-moon"></i>';
+        }
+        applyLanguage();
+
+        // --- Connection Status Logic ---
+        function updateConnectionStatus(isConnected) {
+            const statusEl = document.getElementById('connectionStatus');
+            if (isConnected) {
+                statusEl.style.color = 'var(--success)';
+                statusEl.innerHTML = `<i class="fa-solid fa-circle-dot fa-fade"></i> <span data-i18n="connected">${i18n[currentLang].connected}</span>`;
+            } else {
+                statusEl.style.color = 'var(--danger)';
+                statusEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation fa-fade"></i> <span data-i18n="disconnected">${i18n[currentLang].disconnected}</span>`;
+            }
+        }
+
+        // --- Fetch Live Machine Data ---
         async function fetchMachineData() {
             try {
                 const res = await fetch(`${API_BASE}/machinedata`);
                 const data = await res.json();
-                
+
+                updateConnectionStatus(true); // Connected Successfully
+
                 const tbody = document.getElementById('machineTableBody');
                 tbody.innerHTML = '';
 
-                // Group by latest reading per machine
                 const latestMap = new Map();
                 data.forEach(item => {
-                    if(!latestMap.has(item.machineId)) {
+                    if (!latestMap.has(item.machineId)) {
                         latestMap.set(item.machineId, item);
                     }
                 });
 
-                const sortedMachines = Array.from(latestMap.values()).sort((a,b) => a.machineId.localeCompare(b.machineId));
+                const sortedMachines = Array.from(latestMap.values()).sort((a, b) => a.machineId.localeCompare(b.machineId));
 
                 sortedMachines.forEach(m => {
                     let btnHtml = '';
-                    if(m.status === 'Error' || m.status === 'Warning') {
-                        btnHtml = `<button class="btn" onclick="openModal('${m.machineId}')"><i class="fa-solid fa-wrench"></i> Report</button>`;
+                    if (m.status === 'Error' || m.status === 'Warning') {
+                        btnHtml = `<button class="btn" onclick="openModal('${m.machineId}', '${m.status === 'Error' ? 'Urgent' : 'High'}')"><i class="fa-solid fa-wrench"></i> ${i18n[currentLang].btnReport}</button>`;
                     }
 
                     tbody.innerHTML += `
@@ -295,34 +258,40 @@
                     `;
                 });
             } catch (err) {
-                console.error(err);
+                console.error("API Connection Error:", err);
+                updateConnectionStatus(false); // Connection Failed
             }
         }
 
-        // Fetch Tickets
+        // --- Fetch Tickets ---
         async function fetchTickets() {
             try {
                 const res = await fetch(`${API_BASE}/maintenancerequests`);
                 const data = await res.json();
-                
+
                 const container = document.getElementById('ticketsContainer');
                 container.innerHTML = '';
 
-                if(data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">No active tickets. All good!</p>';
+                if (data.length === 0) {
+                    container.innerHTML = `<p style="text-align:center; color: var(--text-muted);">${i18n[currentLang].noTickets}</p>`;
                     return;
                 }
 
                 data.forEach(t => {
                     const time = new Date(t.reportedAt).toLocaleTimeString();
+                    const priority = t.priority || 'Normal'; // Fallback if null
+
                     container.innerHTML += `
                         <div class="ticket ${t.isResolved ? 'resolved' : ''}">
-                            <div style="display:flex; justify-content:space-between;">
+                            <div style="display:flex; justify-content:space-between; align-items: center;">
                                 <strong>${t.machineId}</strong>
-                                <span style="font-size:0.8rem; color:var(--text-muted)">${time}</span>
+                                <span class="badge badge-${priority}">${priority}</span>
                             </div>
-                            <div style="margin: 5px 0; font-size: 0.9rem;">${t.issueDescription}</div>
-                            <div style="font-size: 0.8rem; color: var(--primary);">By: ${t.reportedBy}</div>
+                            <div style="margin: 8px 0; font-size: 0.9rem;">${t.issueDescription}</div>
+                            <div style="display:flex; justify-content:space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted);">
+                                <span><i class="fa-regular fa-user"></i> ${t.reportedBy}</span>
+                                <span><i class="fa-regular fa-clock"></i> ${time}</span>
+                            </div>
                         </div>
                     `;
                 });
@@ -331,9 +300,10 @@
             }
         }
 
-        // Modal Logic
-        function openModal(machineId) {
+        // --- Modal Logic ---
+        function openModal(machineId, defaultPriority = 'Normal') {
             document.getElementById('reqMachineId').value = machineId;
+            document.getElementById('reqPriority').value = defaultPriority;
             document.getElementById('repairModal').style.display = 'flex';
         }
 
@@ -341,21 +311,31 @@
             document.getElementById('repairModal').style.display = 'none';
         }
 
-        // Submit Ticket
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('repairModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // --- Submit Ticket ---
         async function submitTicket() {
             const mId = document.getElementById('reqMachineId').value;
             const op = document.getElementById('reqOperator').value;
             const desc = document.getElementById('reqDescription').value;
+            const prio = document.getElementById('reqPriority').value; // Get Priority
 
-            if(!mId || !op || !desc) {
-                alert("Please fill all fields");
+            if (!mId || !op || !desc) {
+                alert(currentLang === 'th' ? "กรุณากรอกข้อมูลให้ครบถ้วน" : "Please fill all fields");
                 return;
             }
 
             const payload = {
                 MachineId: mId,
                 ReportedBy: op,
-                IssueDescription: desc
+                IssueDescription: desc,
+                Priority: prio // Send Priority to C# API
             };
 
             await fetch(`${API_BASE}/maintenancerequests`, {
@@ -376,4 +356,5 @@
 
     </script>
 </body>
+
 </html>
