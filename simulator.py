@@ -4,11 +4,13 @@ import random
 import urllib3
 from datetime import datetime
 
+import os
+
 # ปิดการแจ้งเตือนเรื่อง SSL Certificate (เพราะเป็น localhost)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# ชี้ไปที่ Port ของ API ที่ดึงมาจาก launchSettings.json (ใช้ HTTPS)
-API_URL = "http://localhost:5209/api/machinedata"
+# ชี้ไปที่ Port ของ API ที่ดึงมาจาก launchSettings.json หรือ Env Var
+API_URL = os.getenv("API_URL", "http://localhost:5209/api/machinedata")
 
 machine_ids = ["M-01", "M-02", "M-03"]
 

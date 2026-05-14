@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong!Passw0rd
+    ports:
+      - "1433:1433"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: factory_api
+    environment:
+      # ชี้ Database ไปที่ Container ชื่อ 'db'
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=FactoryDB;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+    ports:
+      - "5209:8080"
+    depends_on:
+      - db
+
+  simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile.simulator
+    container_name: factory_simulator
+    environment:
+      # ชี้ API ไปที่ Container ชื่อ 'api' พอร์ต 8080 (พอร์ตภายในของ Docker)
+      - API_URL=http://api:8080/api/machinedata
+    depends_on:
+      - api
