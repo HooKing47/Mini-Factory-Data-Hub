@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Factory Data Hub | Control Room</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary: #3b82f6;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top left, #1e1b4b, var(--bg-dark));
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Container */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(15, 23, 42, 0.8);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 {
+            margin: 0;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+        }
+
+        .container {
+            padding: 2rem 5%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Status Colors */
+        .status-Normal { color: var(--success); }
+        .status-Warning { color: var(--warning); }
+        .status-Error { 
+            color: var(--danger); 
+            animation: pulse-danger 1.5s infinite;
+        }
+
+        @keyframes pulse-danger {
+            0% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(239, 68, 68, 1); }
+            100% { text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+            transform: scale(1.05);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--bg-dark);
+            width: 400px;
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* Tickets List */
+        .ticket {
+            background: rgba(255,255,255,0.03);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+        .ticket.resolved {
+            border-left-color: var(--success);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fa-solid fa-industry"></i> Factory Control Center</h1>
+        <div style="color: var(--text-muted);">Live Status: <span style="color: var(--success);"><i class="fa-solid fa-circle-dot fa-fade"></i> Connected</span></div>
+    </header>
+
+    <div class="container">
+        <!-- Left Column: Live Data -->
+        <div class="glass-panel">
+            <h2><i class="fa-solid fa-server"></i> Live Machine Data</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time feed from 20 factory machines</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Machine ID</th>
+                        <th>Temperature (°C)</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="machineTableBody">
+                    <tr><td colspan="4" style="text-align:center;">Loading data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Right Column: Tickets -->
+        <div class="glass-panel">
+            <h2><i class="fa-solid fa-screwdriver-wrench"></i> Active Repair Tickets</h2>
+            <button class="btn btn-primary" onclick="openModal('')" style="width: 100%; margin-bottom: 1rem;">
+                <i class="fa-solid fa-plus"></i> Create Manual Ticket
+            </button>
+            <div id="ticketsContainer">
+                <p style="text-align:center; color: var(--text-muted);">Loading tickets...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Repair Request Modal -->
+    <div id="repairModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-top: 0; color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> Report Issue</h2>
+            <div class="form-group">
+                <label>Machine ID</label>
+                <input type="text" id="reqMachineId" placeholder="e.g. M-05">
+            </div>
+            <div class="form-group">
+                <label>Operator Name</label>
+                <input type="text" id="reqOperator" placeholder="Your Name">
+            </div>
+            <div class="form-group">
+                <label>Issue Description</label>
+                <textarea id="reqDescription" rows="3" placeholder="Describe the problem..."></textarea>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button class="btn" style="background: transparent; border: 1px solid var(--text-muted);" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitTicket()">Submit Ticket</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5209/api';
+
+        // Fetch Live Machine Data
+        async function fetchMachineData() {
+            try {
+                const res = await fetch(`${API_BASE}/machinedata`);
+                const data = await res.json();
+                
+                const tbody = document.getElementById('machineTableBody');
+                tbody.innerHTML = '';
+
+                // Group by latest reading per machine
+                const latestMap = new Map();
+                data.forEach(item => {
+                    if(!latestMap.has(item.machineId)) {
+                        latestMap.set(item.machineId, item);
+                    }
+                });
+
+                const sortedMachines = Array.from(latestMap.values()).sort((a,b) => a.machineId.localeCompare(b.machineId));
+
+                sortedMachines.forEach(m => {
+                    let btnHtml = '';
+                    if(m.status === 'Error' || m.status === 'Warning') {
+                        btnHtml = `<button class="btn" onclick="openModal('${m.machineId}')"><i class="fa-solid fa-wrench"></i> Report</button>`;
+                    }
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td style="font-weight: 600;">${m.machineId}</td>
+                            <td style="font-size: 1.1rem;">${m.temperature.toFixed(2)}</td>
+                            <td class="status-${m.status}"><strong><i class="fa-solid ${m.status === 'Error' ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i> ${m.status}</strong></td>
+                            <td>${btnHtml}</td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // Fetch Tickets
+        async function fetchTickets() {
+            try {
+                const res = await fetch(`${API_BASE}/maintenancerequests`);
+                const data = await res.json();
+                
+                const container = document.getElementById('ticketsContainer');
+                container.innerHTML = '';
+
+                if(data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color: var(--text-muted);">No active tickets. All good!</p>';
+                    return;
+                }
+
+                data.forEach(t => {
+                    const time = new Date(t.reportedAt).toLocaleTimeString();
+                    container.innerHTML += `
+                        <div class="ticket ${t.isResolved ? 'resolved' : ''}">
+                            <div style="display:flex; justify-content:space-between;">
+                                <strong>${t.machineId}</strong>
+                                <span style="font-size:0.8rem; color:var(--text-muted)">${time}</span>
+                            </div>
+                            <div style="margin: 5px 0; font-size: 0.9rem;">${t.issueDescription}</div>
+                            <div style="font-size: 0.8rem; color: var(--primary);">By: ${t.reportedBy}</div>
+                        </div>
+                    `;
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // Modal Logic
+        function openModal(machineId) {
+            document.getElementById('reqMachineId').value = machineId;
+            document.getElementById('repairModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('repairModal').style.display = 'none';
+        }
+
+        // Submit Ticket
+        async function submitTicket() {
+            const mId = document.getElementById('reqMachineId').value;
+            const op = document.getElementById('reqOperator').value;
+            const desc = document.getElementById('reqDescription').value;
+
+            if(!mId || !op || !desc) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            const payload = {
+                MachineId: mId,
+                ReportedBy: op,
+                IssueDescription: desc
+            };
+
+            await fetch(`${API_BASE}/maintenancerequests`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            closeModal();
+            fetchTickets();
+        }
+
+        // Initialize and poll
+        fetchMachineData();
+        fetchTickets();
+        setInterval(fetchMachineData, 3000);
+        setInterval(fetchTickets, 5000);
+
+    </script>
+</body>
+</html>
