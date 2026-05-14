@@ -1,0 +1,10 @@
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+
+# ลบไฟล์หน้าเว็บ default ของ Nginx ทิ้ง
+RUN rm -rf ./*
+
+# ก๊อปปี้ไฟล์หน้าเว็บของเราเข้าไปแทนที่
+COPY Frontend/ .
+
+EXPOSE 80

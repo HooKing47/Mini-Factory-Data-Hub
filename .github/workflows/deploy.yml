@@ -1,0 +1,27 @@
+name: Auto Deploy to Local Server
+
+# ทำงานอัตโนมัติเมื่อมีการ push โค้ดเข้า branch 'main'
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    # คำสั่งนี้คือหัวใจสำคัญ! มันจะวิ่งไปหาสายลับ (Runner) ที่รันอยู่ในเครื่อง Ubuntu ของเรา
+    runs-on: self-hosted
+
+    steps:
+      - name: 📥 Download Latest Code
+        uses: actions/checkout@v4
+
+      - name: 🚀 Deploy with Docker Compose
+        run: |
+          echo "--- Starting Deployment ---"
+          # ล้างไพ่ (ปิดกล่องเดิม)
+          docker compose down
+          
+          # ประกอบร่างใหม่และรันขึ้นมาทำงาน (Background)
+          docker compose up --build -d
+          
+          echo "--- Deployment Successful! ---"

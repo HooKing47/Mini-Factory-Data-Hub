@@ -33,3 +33,13 @@ services:
       - API_URL=http://api:8080/api/machinedata
     depends_on:
       - api
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: factory_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
